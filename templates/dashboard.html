@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CloudWatch Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #1a1a2e; color: white; padding: 40 px; }
+        h1 { color: #00d9ff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: #16213e; }
+        .running { color: #00ff88; }
+        .stopped { color: #ff4444; }
+    </style>
+</head>
+<body>
+    <h1> CloudWatch DashBoard</h1>
+    <table>
+        <tr><th>Resource Name</th><th>Type</th><th>Status</th></tr>
+        {% for r in resources %}
+        <tr>
+            <td>{{ r.name }}</td>
+            <td>{{ r.type }}</td>
+            <td class="{{ 'running' if r.status == 'Running' else 'stopped' }}">{{ r.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
