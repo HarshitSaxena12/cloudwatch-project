@@ -44,13 +44,13 @@ def home():
 
     resources = []
 
-    for item in resource_client.resources.list():
+    for item in resource_client.resource_groups.list():
 
         resources.append({
 
             "name": item.name,
 
-            "type": item.type.split('/')[-1],
+            "type": "Resource Group",
 
             "status": "Running"
 
