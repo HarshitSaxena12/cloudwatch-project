@@ -1,4 +1,16 @@
+import os
+
 from flask import Flask, render_template
+
+from dotenv import load_dotenv
+
+from azure.identity import ClientSecretCredential
+
+from azure.mgmt.resource.resources import ResourceManagementClient
+
+
+
+load_dotenv()
 
 
 
@@ -6,19 +18,47 @@ app = Flask(__name__)
 
 
 
+credential = ClientSecretCredential(
+
+    tenant_id=os.getenv("AZURE_TENANT_ID"),
+
+    client_id=os.getenv("AZURE_CLIENT_ID"),
+
+    client_secret=os.getenv("AZURE_CLIENT_SECRET")
+
+)
+
+
+
+resource_client = ResourceManagementClient(
+
+    credential, os.getenv("AZURE_SUBSCRIPTION_ID")
+
+)
+
+
+
 @app.route('/')
 
 def home():
 
-    resources = [
+    resources = []
 
-        {"name": "Web-Server-01", "type": "Virtual Machine", "status": "Running"},
+    for item in resource_client.resources.list():
 
-        {"name": "Storage-Prod", "type": "Storage Account", "status": "Running"},
+        resources.append({
 
-        {"name": "DB-Backup-VM", "type": "Virtual Machine", "status": "Stopped"}
+            "name": item.name,
 
-    ]
+            "type": item.type.split('/')[-1],
+
+            "status": "Running"
+
+        })
+
+    if not resources:
+
+        resources.append({"name": "No resources found", "type": "-", "status": "Stopped"})
 
     return render_template('dashboard.html', resources=resources)
 
