@@ -29,18 +29,27 @@ Displays live Azure resource groups from a real subscription using Service Princ
 
 \`\`\`bash
 git clone https://github.com/HarshitSaxena12/cloudwatch-project.git
+
 cd cloudwatch-project
+
 python3 -m venv venv
+
 source venv/bin/activate
+
 pip install -r requirements.txt
 \`\`\`
 
 Create a \`.env\` file with your Azure credentials:
 \`\`\`
+
 AZURE_TENANT_ID=your-tenant-id
+
 AZURE_CLIENT_ID=your-client-id
+
 AZURE_CLIENT_SECRET=your-client-secret
+
 AZURE_SUBSCRIPTION_ID=your-subscription-id
+
 \`\`\`
 
 Run it:
@@ -52,16 +61,22 @@ python3 app.py
 
 \`\`\`bash
 docker build -t cloudwatch-dashboard .
+
 docker run -p 5000:5000 --env-file .env cloudwatch-dashboard
 \`\`\`
 
 ## Provisioning Infrastructure With Terraform
 
 \`\`\`bash
+
 cd terraform
+
 terraform init
+
 terraform plan
+
 terraform apply
+
 \`\`\`
 
 ## What I Learned Building This
